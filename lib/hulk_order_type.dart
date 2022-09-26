@@ -1,0 +1,4 @@
+enum HulkOrderType {
+  asc,
+  desc,
+}
