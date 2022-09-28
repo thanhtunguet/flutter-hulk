@@ -1,12 +1,11 @@
 import 'package:flutter_hulk/hulk_model.dart';
 import 'package:flutter_hulk/hulk_pagination.dart';
 
-class HulkAdvancedFilter extends HulkModel with HulkPagination {
-  HulkAdvancedFilter({
-    int? skip,
-    int? take,
-  }) {
-    this.skip = skip;
-    this.take = take;
+abstract class HulkAdvancedFilter extends HulkModel with HulkPagination {
+  HulkAdvancedFilter.fromJSON(super.json) : super.fromJSON();
+
+  HulkAdvancedFilter() {
+    skip = 0;
+    take = 10;
   }
 }

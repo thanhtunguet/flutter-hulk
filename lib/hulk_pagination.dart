@@ -1,9 +1,9 @@
 import 'package:flutter_hulk/hulk_order_type.dart';
 
-class HulkPagination {
-  int? skip;
+abstract class HulkPagination {
+  int? skip = 0;
 
-  int? take;
+  int? take = 10;
 
   String? orderBy;
 

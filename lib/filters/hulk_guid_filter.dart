@@ -1,13 +1,13 @@
 import 'package:flutter_hulk/filters/hulk_filter.dart';
 
-class HulkIdFilter extends HulkFilter {
-  List<int>? inList;
+class HulkGuidFilter extends HulkFilter {
+  List<String>? inList;
 
-  List<int>? notInList;
+  List<String>? notInList;
 
-  int? equal;
+  String? equal;
 
-  int? notEqual;
+  String? notEqual;
 
   Map<String, dynamic> toJSON() {
     return {
@@ -18,4 +18,3 @@ class HulkIdFilter extends HulkFilter {
     };
   }
 }
-

@@ -18,4 +18,17 @@ class HulkStringFilter extends HulkFilter {
   String? contain;
 
   String? notContain;
+
+  Map<String, dynamic> toJSON() {
+    return {
+      "equal": equal,
+      "notEqual": notEqual,
+      "startWith": startWith,
+      "notStartWith": notStartWith,
+      "contain": contain,
+      "notContain": notContain,
+      "endWith": endWith,
+      "notEndWith": notEndWith,
+    };
+  }
 }

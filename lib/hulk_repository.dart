@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_hulk/hulk_model.dart';
 
-class HulkRepository {
-  late String _baseURL;
-
+abstract class HulkRepository {
   late Dio httpClient;
 
   static InterceptorSendCallback? requestInterceptor;
@@ -21,7 +19,6 @@ class HulkRepository {
   }
 
   HulkRepository({
-    required String baseURL,
     InterceptorSendCallback? requestInterceptor,
     InterceptorSuccessCallback? responseInterceptor,
     InterceptorErrorCallback? errorInterceptor,
@@ -29,8 +26,6 @@ class HulkRepository {
     httpClient = Dio();
     httpClient.options.headers[HttpHeaders.contentTypeHeader] =
         'application/json';
-
-    _baseURL = baseURL;
 
     addInterceptors(
       requestInterceptor: requestInterceptor,
@@ -41,8 +36,8 @@ class HulkRepository {
     _instances.add(this);
   }
 
-  set baseURL(String baseURL) {
-    _baseURL = baseURL;
+  String get baseURL {
+    throw Exception("get baseURL is not implemented");
   }
 
   addInterceptors({
@@ -58,7 +53,7 @@ class HulkRepository {
   }
 
   String createUri(String path) {
-    return Uri.parse(_baseURL)
+    return Uri.parse(baseURL)
         .replace(
           path: path,
         )

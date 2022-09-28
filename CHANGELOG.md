@@ -1,3 +1,5 @@
-## 0.0.1
+## 0.0.1-rc.2
+Add json features
 
-* TODO: Describe initial release.
+## 0.0.1-rc.1
+Release v0.0.1-rc.1
