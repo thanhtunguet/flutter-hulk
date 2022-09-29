@@ -1,17 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_hulk/data/hulk_http_repository.dart';
 import 'package:flutter_hulk/hulk_model.dart';
 
-abstract class HulkRepository {
-  late Dio httpClient;
-
-  static InterceptorSendCallback? requestInterceptor;
-
-  static InterceptorSuccessCallback? responseInterceptor;
-
-  static InterceptorErrorCallback? errorInterceptor;
-
+abstract class HulkRepository with HulkHttpRepository {
   static final List<HulkRepository> _instances = [];
 
   static get instances {
@@ -36,39 +29,33 @@ abstract class HulkRepository {
     _instances.add(this);
   }
 
-  String get baseURL {
-    throw Exception("get baseURL is not implemented");
-  }
-
-  addInterceptors({
-    InterceptorSendCallback? requestInterceptor,
-    InterceptorSuccessCallback? responseInterceptor,
-    InterceptorErrorCallback? errorInterceptor,
-  }) {
-    httpClient.interceptors.add(InterceptorsWrapper(
-      onRequest: requestInterceptor,
-      onResponse: responseInterceptor,
-      onError: errorInterceptor,
-    ));
-  }
-
-  String createUri(String path) {
-    return Uri.parse(baseURL)
-        .replace(
-          path: path,
-        )
-        .toString();
-  }
-
+  /// Map HTTP response to a HulkModel
+  ///
+  /// @param response - HTTP response
   T responseMapToModel<T extends HulkModel>(dynamic T, Response response) {
-    return T.fromJSON(response.data);
+    T model = T();
+    model.fromJSON(response.data);
+    return model;
   }
 
-  List<T> responseMapToList<T extends HulkModel>(dynamic T, Response response) {
-    return response.data.map((element) => T.fromJSON(element));
+  /// Map HTTP response to list of models that extends HulkModel
+  ///
+  /// @param response - HTTP response
+  List<T> responseMapToList<T extends HulkModel>(
+    dynamic T,
+    Response<List<Map<String, dynamic>>> response,
+  ) {
+    return response.data!.map((value) {
+      T model = T();
+      model.fromJSON(value);
+      return model;
+    }).toList();
   }
 
-  T responseMap<T>(Response response) {
+  /// Map HTTP response to primitive types: int, double, float, string, boolean
+  ///
+  /// @param response - HTTP response
+  T? responseMap<T>(Response<T?> response) {
     return response.data;
   }
 }

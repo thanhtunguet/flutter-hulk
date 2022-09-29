@@ -9,6 +9,10 @@ abstract class HulkModel {
     throw Exception("fromJSON is not implemented for this model");
   }
 
+  void fromJSON(Map<String, dynamic> json) {
+    throw Exception("fromJSON is not implemented for this model");
+  }
+
   Map<String, dynamic> toJSON() {
     return fields.map((key, value) {
       return MapEntry(key, value.toJSON());

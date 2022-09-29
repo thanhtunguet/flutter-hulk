@@ -1,3 +1,1 @@
-abstract class HulkFoundation {
-
-}
+abstract class HulkFoundation {}

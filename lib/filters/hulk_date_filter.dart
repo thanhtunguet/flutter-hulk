@@ -13,6 +13,8 @@ class HulkDateFilter extends HulkFilter {
 
   DateTime? notEqual;
 
+  HulkDateFilter();
+
   HulkDateFilter.fromJSON(Map<String, dynamic> json) {
     if (json.containsKey("greaterEqual")) {
       greaterEqual = DateTime.parse(json["greaterEqual"]);
@@ -30,7 +32,7 @@ class HulkDateFilter extends HulkFilter {
       equal = DateTime.parse(json["equal"]);
     }
     if (json.containsKey("notEqual")) {
-      equal = DateTime.parse(json["notEqual"]);
+      notEqual = DateTime.parse(json["notEqual"]);
     }
   }
 
