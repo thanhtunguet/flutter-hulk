@@ -181,6 +181,15 @@ Trong đó:
 
    AdvancedFilter được chuyển đổi thành json và ngược lại tương tự Model.
 
+### Update model reflection
+
+Do Flutter đã disable tính năng Reflection của Dart, nên package này sử dụng reflection được cung cấp bởi `reflectable`.
+Vì vậy, khi có thay đổi về model, filter dùng reflection, cần chạy lệnh sau để cập nhật:
+
+```shell
+flutter pub run build_runner build DIR
+```
+
 ### Repository
 
 ```dart
