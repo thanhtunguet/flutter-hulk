@@ -14,6 +14,12 @@ import 'package:flutter_hulk/json/hulk_property_descriptor.dart';
 import 'package:reflectable/mirrors.dart';
 
 abstract class Model {
+  List<String> generalErrors = [];
+
+  List<String> generalWarnings = [];
+
+  List<String> generalInformations = [];
+
   void _loadFields() {
     InstanceMirror mirror = reflector.reflect(this);
     mirror.type.declarations.forEach((key, value) {
@@ -74,8 +80,33 @@ abstract class Model {
 
   void fromJSON(Map<String, dynamic> json) {
     var fields = _getFields();
+
+    generalErrors = json["generalErrors"];
+    generalWarnings = json["generalWarnings"];
+    generalInformations = json["generalInformations"];
+
+    Map<String, dynamic> errors = json["errors"];
+    Map<String, dynamic> warnings = json["warnings"];
+    Map<String, dynamic> informations = json["informations"];
+    Map<String, dynamic> disabledFields = json["disabled"];
+
     for (var field in fields) {
       String key = field.fieldName;
+
+      if (disabledFields.containsKey(key)) {
+        field.isDisabled = true;
+      }
+
+      if (errors.containsKey(key)) {
+        field.error = errors[key];
+      }
+      if (warnings.containsKey(key)) {
+        field.warning = warnings[key];
+      }
+      if (informations.containsKey(key)) {
+        field.information = informations[key];
+      }
+
       if (json.containsKey(key)) {
         if (field is JsonString ||
             field is JsonInteger ||
@@ -131,5 +162,17 @@ abstract class Model {
   @override
   String toString() {
     return jsonEncode(toJSON());
+  }
+
+  bool get hasError {
+    return generalErrors.isNotEmpty;
+  }
+
+  bool get hasWarning {
+    return generalWarnings.isNotEmpty;
+  }
+
+  bool get hasInformation {
+    return generalInformations.isNotEmpty;
   }
 }

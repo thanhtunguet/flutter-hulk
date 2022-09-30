@@ -7,6 +7,8 @@ class PropertyDescriptor<T extends dynamic> {
 
   bool isRequired = false;
 
+  bool isDisabled = false;
+
   PropertyDescriptor({
     String? fieldName,
     required this.fieldType,
@@ -34,5 +36,17 @@ class PropertyDescriptor<T extends dynamic> {
 
   dynamic toJSON() {
     return value;
+  }
+
+  bool get hasError {
+    return error != null;
+  }
+
+  bool get hasWarning {
+    return warning != null;
+  }
+
+  bool get hasInformation {
+    return information != null;
   }
 }
