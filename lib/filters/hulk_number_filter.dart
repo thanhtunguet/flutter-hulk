@@ -2,7 +2,7 @@ import "dart:core";
 
 import 'package:flutter_hulk/filters/hulk_filter.dart';
 
-class HulkNumberFilter<T extends num> extends HulkFilter {
+class NumberFilter<T extends num> extends Filter {
   T? greaterEqual;
 
   T? lessEqual;
@@ -15,9 +15,10 @@ class HulkNumberFilter<T extends num> extends HulkFilter {
 
   T? notEqual;
 
-  HulkNumberFilter();
+  NumberFilter({bool isRequired = false}) : super(isRequired: isRequired);
 
-  HulkNumberFilter.fromJSON(Map<String, dynamic> json) {
+  NumberFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
+      : super.fromJSON(json, isRequired: isRequired) {
     if (json.containsKey("greaterEqual")) {
       greaterEqual = json["greaterEqual"];
     }
@@ -38,6 +39,7 @@ class HulkNumberFilter<T extends num> extends HulkFilter {
     }
   }
 
+  @override
   Map<String, dynamic> toJSON() {
     return {
       "greaterEqual": greaterEqual,

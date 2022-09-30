@@ -1,6 +1,6 @@
 import 'package:flutter_hulk/filters/hulk_filter.dart';
 
-class HulkIdFilter extends HulkFilter {
+class IdFilter extends Filter {
   List<int>? _inList;
 
   List<int>? _notInList;
@@ -9,9 +9,10 @@ class HulkIdFilter extends HulkFilter {
 
   int? notEqual;
 
-  HulkIdFilter();
+  IdFilter({bool isRequired = false}) : super(isRequired: isRequired);
 
-  HulkIdFilter.fromJSON(Map<String, dynamic> json) {
+  IdFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
+      : super.fromJSON(json, isRequired: isRequired) {
     if (json.containsKey("in")) {
       _inList = json["in"];
     }
@@ -26,6 +27,7 @@ class HulkIdFilter extends HulkFilter {
     }
   }
 
+  @override
   Map<String, dynamic> toJSON() {
     return {
       "in": _inList,
@@ -35,4 +37,3 @@ class HulkIdFilter extends HulkFilter {
     };
   }
 }
-

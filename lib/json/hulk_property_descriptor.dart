@@ -1,19 +1,27 @@
 import 'package:flutter_hulk/json/hulk_json_type.dart';
 
-class HulkPropertyDescriptor<T extends dynamic> {
-  String fieldName;
+class PropertyDescriptor<T extends dynamic> {
+  String fieldName = "";
 
-  HulkJsonType fieldType;
+  JsonType fieldType;
 
-  HulkPropertyDescriptor({
-    required this.fieldName,
+  bool isRequired = false;
+
+  PropertyDescriptor({
+    String? fieldName,
     required this.fieldType,
-  });
+    this.isRequired = false,
+  }) {
+    if (fieldName != null) {
+      this.fieldName = fieldName;
+    }
+  }
 
-  HulkPropertyDescriptor.fromJSON({
+  PropertyDescriptor.fromJSON({
     required dynamic json,
     required this.fieldName,
     required this.fieldType,
+    this.isRequired = false,
   });
 
   T? value;

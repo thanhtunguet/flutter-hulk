@@ -1,8 +1,8 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class HulkDatabase {
-  HulkDatabase(String dbName) {}
+class Database {
+  Database(String dbName) {}
 
   Future<void> createDatabase(String dbName) async {
     final database = openDatabase(

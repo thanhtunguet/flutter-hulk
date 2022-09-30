@@ -1,4 +1,4 @@
-enum HulkJsonType {
+enum JsonType {
   boolean,
   datetime,
   double,

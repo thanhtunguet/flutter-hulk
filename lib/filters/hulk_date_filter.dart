@@ -1,6 +1,6 @@
 import 'package:flutter_hulk/filters/hulk_filter.dart';
 
-class HulkDateFilter extends HulkFilter {
+class DateFilter extends Filter {
   DateTime? greaterEqual;
 
   DateTime? lessEqual;
@@ -13,9 +13,10 @@ class HulkDateFilter extends HulkFilter {
 
   DateTime? notEqual;
 
-  HulkDateFilter();
+  DateFilter({bool isRequired = false}) : super(isRequired: isRequired);
 
-  HulkDateFilter.fromJSON(Map<String, dynamic> json) {
+  DateFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
+      : super.fromJSON(json, isRequired: isRequired) {
     if (json.containsKey("greaterEqual")) {
       greaterEqual = DateTime.parse(json["greaterEqual"]);
     }
@@ -36,6 +37,7 @@ class HulkDateFilter extends HulkFilter {
     }
   }
 
+  @override
   Map<String, dynamic> toJSON() {
     return {
       "greaterEqual": greaterEqual?.toIso8601String(),

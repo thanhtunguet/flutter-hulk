@@ -1,19 +1,19 @@
 import 'package:flutter_hulk/hulk_order_type.dart';
 
-abstract class HulkPagination {
+abstract class Pagination {
   int? skip = 0;
 
   int? take = 10;
 
   String? orderBy;
 
-  HulkOrderType? orderType;
+  OrderType? orderType;
 
-  static String? getOrderType(HulkOrderType? orderType) {
-    if (orderType == HulkOrderType.asc) {
+  static String? getOrderType(OrderType? orderType) {
+    if (orderType == OrderType.asc) {
       return "ASC";
     }
-    if (orderType == HulkOrderType.desc) {
+    if (orderType == OrderType.desc) {
       return "DESC";
     }
     return null;

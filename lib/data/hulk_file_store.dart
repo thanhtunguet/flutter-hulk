@@ -1,3 +1,3 @@
-class HulkFileStore {
+class FileStore {
   
 }

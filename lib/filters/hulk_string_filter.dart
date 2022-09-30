@@ -2,7 +2,7 @@ import 'dart:core';
 
 import 'package:flutter_hulk/filters/hulk_filter.dart';
 
-class HulkStringFilter extends HulkFilter {
+class StringFilter extends Filter {
   String? equal;
 
   String? notEqual;
@@ -19,9 +19,10 @@ class HulkStringFilter extends HulkFilter {
 
   String? notContain;
 
-  HulkStringFilter();
+  StringFilter({bool isRequired = false}) : super(isRequired: isRequired);
 
-  HulkStringFilter.fromJSON(Map<String, dynamic> json) {
+  StringFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
+      : super.fromJSON(json, isRequired: isRequired) {
     if (json.containsKey("equal")) {
       equal = json["equal"];
     }
@@ -45,6 +46,7 @@ class HulkStringFilter extends HulkFilter {
     }
   }
 
+  @override
   Map<String, dynamic> toJSON() {
     return {
       "equal": equal,

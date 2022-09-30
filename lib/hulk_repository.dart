@@ -4,14 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_hulk/data/hulk_http_repository.dart';
 import 'package:flutter_hulk/hulk_model.dart';
 
-abstract class HulkRepository with HulkHttpRepository {
-  static final List<HulkRepository> _instances = [];
+abstract class Repository with HttpRepository {
+  static final List<Repository> _instances = [];
 
   static get instances {
     return _instances;
   }
 
-  HulkRepository({
+  Repository({
     InterceptorSendCallback? requestInterceptor,
     InterceptorSuccessCallback? responseInterceptor,
     InterceptorErrorCallback? errorInterceptor,
@@ -29,24 +29,24 @@ abstract class HulkRepository with HulkHttpRepository {
     _instances.add(this);
   }
 
-  /// Map HTTP response to a HulkModel
+  /// Map HTTP response to a Model
   ///
   /// @param response - HTTP response
-  T responseMapToModel<T extends HulkModel>(dynamic T, Response response) {
-    T model = T();
+  T responseMapToModel<T extends Model>(dynamic modelClass, Response response) {
+    T model = modelClass();
     model.fromJSON(response.data);
     return model;
   }
 
-  /// Map HTTP response to list of models that extends HulkModel
+  /// Map HTTP response to list of models that extends Model
   ///
   /// @param response - HTTP response
-  List<T> responseMapToList<T extends HulkModel>(
-    dynamic T,
+  List<T> responseMapToList<T extends Model>(
+    dynamic modelClass,
     Response<List<Map<String, dynamic>>> response,
   ) {
     return response.data!.map((value) {
-      T model = T();
+      T model = modelClass();
       model.fromJSON(value);
       return model;
     }).toList();

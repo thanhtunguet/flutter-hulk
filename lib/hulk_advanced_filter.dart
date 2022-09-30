@@ -1,27 +1,87 @@
-import 'package:flutter_hulk/hulk_model.dart';
-import 'package:flutter_hulk/hulk_pagination.dart';
+import 'dart:convert';
 
-abstract class HulkAdvancedFilter extends HulkModel with HulkPagination {
+import 'package:flutter_hulk/filters/hulk_filter.dart';
+import 'package:flutter_hulk/hulk_filter_field.dart';
+import 'package:flutter_hulk/hulk_model_reflector.dart';
+import 'package:flutter_hulk/hulk_pagination.dart';
+import 'package:reflectable/mirrors.dart';
+
+abstract class AdvancedFilter with Pagination {
   _initSkipTake() {
     skip = 0;
     take = 10;
   }
 
-  HulkAdvancedFilter.fromJSON(super.json) : super.fromJSON() {
-    _initSkipTake();
+  void _loadFields() {
+    InstanceMirror mirror = reflector.reflect(this);
+    mirror.type.declarations.forEach((key, value) {
+      if (value.metadata.isNotEmpty) {
+        var metadata = value.metadata[0];
+        if (metadata is FilterField) {
+          var field = mirror.invokeGetter(value.simpleName) as Filter;
+          field.fieldName = metadata.fieldName;
+          field.isRequired = metadata.isRequired;
+        }
+      }
+    });
   }
 
-  HulkAdvancedFilter() {
+  List<Filter> _getFields() {
+    List<Filter> fields = [];
+    InstanceMirror mirror = reflector.reflect(this);
+    mirror.type.declarations.forEach((key, value) {
+      if (value.metadata.isNotEmpty) {
+        var metadata = value.metadata[0];
+        if (metadata is FilterField) {
+          Filter field = mirror.invokeGetter(value.simpleName) as Filter;
+          fields.add(field);
+        }
+      }
+    });
+    return fields;
+  }
+
+  AdvancedFilter() {
+    _loadFields();
     _initSkipTake();
   }
 
   @override
   Map<String, dynamic> toJSON() {
-    return {
+    Map<String, dynamic> result = {
       "skip": skip,
       "take": take,
       "orderBy": orderBy,
-      "orderType": HulkPagination.getOrderType(orderType),
+      "orderType": Pagination.getOrderType(orderType),
     };
+    var fields = _getFields();
+    for (var field in fields) {
+      result[field.fieldName] = field.toJSON();
+    }
+    Map<String, dynamic> endResult = {};
+    result.forEach((key, value) {
+      if (value is Map) {
+        endResult[key] = {};
+        value.forEach((subKey, subValue) {
+          if (subValue != null) {
+            endResult[key][subKey] = subValue;
+          }
+        });
+        if ((endResult[key] as Map).isEmpty) {
+          endResult.remove(key);
+        }
+        return;
+      }
+      if (value != null) {
+        endResult[key] = value;
+        return;
+      }
+    });
+    return endResult;
+  }
+
+  @override
+  String toString() {
+    return jsonEncode(toJSON());
   }
 }

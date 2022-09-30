@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-mixin HulkHttpRepository {
+mixin HttpRepository {
   late Dio httpClient;
 
   String get baseURL {
