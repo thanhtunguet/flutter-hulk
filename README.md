@@ -126,7 +126,7 @@ class ModelField {
 
 ### AdvancedFilter
 
-AdvancedFilter là một cấu trúc dữ liệu dành cho payload của các request dạng filter (get, list, search) được định nghĩa bởi [@leducthang1991](https://github.com/leducthang1991).
+AdvancedFilter là một cấu trúc dữ liệu dành cho payload của các request dạng filter (get, list, search) được định nghĩa bởi [@leducthang](https://github.com/leducthang).
 AdvancedFilter chứa các điều kiện filter dành cho một business model với các kiểu dữ liệu khác nhau, đi kèm với cấu hình phân trang và sắp xếp (pagination).
 
 Cấu trúc phân trang (Pagination) có các thuộc tính sau:
