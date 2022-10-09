@@ -7,7 +7,7 @@ import 'package:flutter_hulk/hulk_pagination.dart';
 import 'package:reflectable/mirrors.dart';
 
 abstract class AdvancedFilter with Pagination {
-  _initSkipTake() {
+  void _initSkipTake() {
     skip = 0;
     take = 10;
   }

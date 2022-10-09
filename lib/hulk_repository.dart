@@ -32,8 +32,8 @@ abstract class Repository with HttpRepository {
   /// Map HTTP response to a Model
   ///
   /// @param response - HTTP response
-  T responseMapToModel<T extends Model>(dynamic modelClass, Response response) {
-    T model = modelClass();
+  T responseMapToModel<T extends Model>(Function newModel, Response response) {
+    T model = newModel();
     model.fromJSON(response.data);
     return model;
   }

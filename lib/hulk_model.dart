@@ -78,17 +78,36 @@ abstract class Model {
     return fields;
   }
 
+  List<String> _mapGeneralInfo(List<dynamic> json) {
+    return json.map((value) {
+      return value.toString();
+    }).toList();
+  }
+
   void fromJSON(Map<String, dynamic> json) {
     var fields = _getFields();
 
-    generalErrors = json["generalErrors"];
-    generalWarnings = json["generalWarnings"];
-    generalInformations = json["generalInformations"];
+    generalErrors = _mapGeneralInfo(json["generalErrors"] ?? []);
+    generalWarnings = _mapGeneralInfo(json["generalWarnings"] ?? []);
+    generalInformations = _mapGeneralInfo(json["generalInformations"] ?? []);
 
-    Map<String, dynamic> errors = json["errors"];
-    Map<String, dynamic> warnings = json["warnings"];
-    Map<String, dynamic> informations = json["informations"];
-    Map<String, dynamic> disabledFields = json["disabled"];
+    Map<String, dynamic> errors = {},
+        informations = {},
+        disabledFields = {},
+        warnings = {};
+
+    if (json["errors"] != null) {
+      Map<String, dynamic> errors = json["errors"];
+    }
+    if (json["warnings"] != null) {
+      Map<String, dynamic> warnings = json["warnings"];
+    }
+    if (json["informations"] != null) {
+      Map<String, dynamic> informations = json["informations"];
+    }
+    if (json["disabled"] != null) {
+      Map<String, dynamic> disabledFields = json["disabled"];
+    }
 
     for (var field in fields) {
       String key = field.fieldName;
@@ -116,7 +135,11 @@ abstract class Model {
           field.value = json[key];
         }
         if (field is JsonDate) {
-          field.value = DateTime.parse(json[key]);
+          if (json[key] is String) {
+            field.value = DateTime.parse(json[key]);
+          } else {
+            field.value = null;
+          }
         }
         if (field is JsonObject<Model>) {
           Model model = field.classType();
@@ -134,11 +157,41 @@ abstract class Model {
     }
   }
 
-  Map<String, dynamic> _toJSON() {
+  Map<String, dynamic> convertToJSON({required List<Model> serialized}) {
     Map<String, dynamic> result = {};
     var fields = _getFields();
     for (var field in fields) {
-      if (field.value != null) {
+      if (field.isRequired) {
+        if (field.value == null) {
+          throw Exception("Field ${field.fieldName} is missing in this model.");
+          print(result);
+        }
+      }
+      if (field.value is DateTime) {
+        result[field.fieldName] = field.value.toIso8601String();
+        continue;
+      }
+      if (field.value is List) {
+        result[field.fieldName] = field.value.map((value) {
+          return value.toJSON();
+        }).toList();
+        continue;
+      }
+      if (field.value is Model) {
+        if (serialized.contains(field.value)) {
+          continue;
+        } else {
+          serialized.add(field.value);
+        }
+        result[field.fieldName] =
+            field.value.convertToJSON(serialized: serialized);
+        continue;
+      }
+      if (field.value is String ||
+          field.value is int ||
+          field.value is double ||
+          field.value is bool ||
+          field.value == null) {
         result[field.fieldName] = field.value;
       }
     }
@@ -146,17 +199,7 @@ abstract class Model {
   }
 
   Map<String, dynamic> toJSON() {
-    var result = _toJSON();
-    var fields = _getFields();
-    for (var field in fields) {
-      if (field.isRequired) {
-        if (field.value == null) {
-          print("Field ${field.fieldName} is missing in this model.");
-          print(result);
-        }
-      }
-    }
-    return result;
+    return convertToJSON(serialized: []);
   }
 
   @override
