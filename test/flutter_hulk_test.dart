@@ -6,6 +6,7 @@ import 'package:flutter_hulk/json/hulk_json_integer.dart';
 import 'package:flutter_hulk/json/hulk_json_object.dart';
 import 'package:flutter_hulk/json/hulk_json_string.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import 'flutter_hulk_test.reflectable.dart';
 
 @reflector
@@ -29,15 +30,19 @@ void main() {
   Map<String, dynamic> json = {
     "name": "Test",
     "age": 25,
-    "birthday": "1997-11-01T01:59:00+0700"
+    "birthday": "1997-11-01T01:59:00+0700",
+    "manager": {
+      "name": "Test",
+      "age": 25,
+      "birthday": "1997-11-01T01:59:00+0700"
+    }
   };
+
   User user = User();
   user.fromJSON(json);
-  user.manager.value = user;
 
   test('adds one to input values', () {
-    print(user.toJSON());
-
+    print(user.manager.value?.toJSON());
     expect(user, user.manager.value);
   });
 }
