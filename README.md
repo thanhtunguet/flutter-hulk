@@ -11,7 +11,7 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-Package dành cho những coder tay to như Hulk! Tôi fan Marvel!!!
+Package dành cho những coder tay to như Hulk!
 
 ## Tính năng nổi bật
 
@@ -37,13 +37,13 @@ Ví dụ: Product, Customer, Order, ...
 Để định nghĩa model, xem ví dụ sau:
 
 ```dart
-import 'package:flutter_hulk/hulk_model.dart';
-import 'package:flutter_hulk/hulk_model_field.dart';
-import 'package:flutter_hulk/hulk_model_reflector.dart';
-import 'package:flutter_hulk/json/hulk_json_date.dart';
-import 'package:flutter_hulk/json/hulk_json_list.dart';
-import 'package:flutter_hulk/json/hulk_json_object.dart';
-import 'package:flutter_hulk/json/hulk_json_string.dart';
+import 'package:flutter_hulk/model.dart';
+import 'package:flutter_hulk/model_field.dart';
+import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/json/json_date.dart';
+import 'package:flutter_hulk/json/json_list.dart';
+import 'package:flutter_hulk/json/json_object.dart';
+import 'package:flutter_hulk/json/json_string.dart';
 
 @reflector
 class User extends Model {
@@ -148,11 +148,11 @@ abstract class Pagination {
 Ví dụ: định nghĩa class `UserFilter` dùng để filter cho các API lấy dữ liệu từ bảng `User`:
 
 ```dart
-import 'package:flutter_hulk/filters/hulk_date_filter.dart';
-import 'package:flutter_hulk/filters/hulk_string_filter.dart';
-import 'package:flutter_hulk/hulk_advanced_filter.dart';
-import 'package:flutter_hulk/hulk_filter_field.dart';
-import 'package:flutter_hulk/hulk_model_reflector.dart';
+import 'package:flutter_hulk/filters/date_filter.dart';
+import 'package:flutter_hulk/filters/string_filter.dart';
+import 'package:flutter_hulk/advanced_filter.dart';
+import 'package:flutter_hulk/filter_field.dart';
+import 'package:flutter_hulk/model_reflector.dart';
 
 @reflector
 class UserFilter extends AdvancedFilter {

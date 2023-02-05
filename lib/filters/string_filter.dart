@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:flutter_hulk/filters/hulk_filter.dart';
+import 'package:flutter_hulk/filters/filter.dart';
 
 class StringFilter extends Filter {
   String? equal;

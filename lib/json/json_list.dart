@@ -1,6 +1,6 @@
-import 'package:flutter_hulk/hulk_model.dart';
-import 'package:flutter_hulk/json/hulk_json_type.dart';
-import 'package:flutter_hulk/json/hulk_property_descriptor.dart';
+import 'package:flutter_hulk/model.dart';
+import 'package:flutter_hulk/json/json_type.dart';
+import 'package:flutter_hulk/json/property_descriptor.dart';
 
 class JsonList<T extends Model> extends PropertyDescriptor<List<T>> {
   dynamic classType;

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_hulk/data/hulk_http_repository.dart';
-import 'package:flutter_hulk/hulk_model.dart';
+import 'package:flutter_hulk/data/http_repository.dart';
+import 'package:flutter_hulk/model.dart';
 
 abstract class Repository with HttpRepository {
   static final List<Repository> _instances = [];

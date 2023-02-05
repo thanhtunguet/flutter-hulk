@@ -1,8 +1,8 @@
 import "dart:core";
 
-import 'package:flutter_hulk/filters/hulk_filter.dart';
+import 'package:flutter_hulk/filters/filter.dart';
 
-class NumberFilter<T extends num> extends Filter {
+class NumberFilter<T> extends Filter {
   T? greaterEqual;
 
   T? lessEqual;

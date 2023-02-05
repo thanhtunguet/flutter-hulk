@@ -2,7 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Database {
-  Database(String dbName) {}
+  Database(String dbName);
 
   Future<void> createDatabase(String dbName) async {
     final database = openDatabase(

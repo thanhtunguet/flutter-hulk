@@ -4,12 +4,12 @@
 
 import 'dart:core';
 import 'flutter_hulk_test.dart' as prefix1;
-import 'package:flutter_hulk/hulk_model_field.dart' as prefix2;
-import 'package:flutter_hulk/hulk_model_reflector.dart' as prefix0;
-import 'package:flutter_hulk/json/hulk_json_date.dart' as prefix5;
-import 'package:flutter_hulk/json/hulk_json_integer.dart' as prefix4;
-import 'package:flutter_hulk/json/hulk_json_object.dart' as prefix6;
-import 'package:flutter_hulk/json/hulk_json_string.dart' as prefix3;
+import 'package:flutter_hulk/model_field.dart' as prefix2;
+import 'package:flutter_hulk/model_reflector.dart' as prefix0;
+import 'package:flutter_hulk/json/json_date.dart' as prefix5;
+import 'package:flutter_hulk/json/json_integer.dart' as prefix4;
+import 'package:flutter_hulk/json/json_object.dart' as prefix6;
+import 'package:flutter_hulk/json/json_string.dart' as prefix3;
 
 // ignore_for_file: camel_case_types
 // ignore_for_file: implementation_imports

@@ -1,4 +1,4 @@
-import 'package:flutter_hulk/hulk_order_type.dart';
+import 'package:flutter_hulk/order_type.dart';
 
 abstract class Pagination {
   int? skip = 0;

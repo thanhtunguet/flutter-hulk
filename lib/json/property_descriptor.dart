@@ -1,4 +1,4 @@
-import 'package:flutter_hulk/json/hulk_json_type.dart';
+import 'package:flutter_hulk/json/json_type.dart';
 
 class PropertyDescriptor<T extends dynamic> {
   String fieldName = "";

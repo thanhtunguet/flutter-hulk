@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter_hulk/hulk_model_field.dart';
-import 'package:flutter_hulk/hulk_model_reflector.dart';
-import 'package:flutter_hulk/json/hulk_json_boolean.dart';
-import 'package:flutter_hulk/json/hulk_json_date.dart';
-import 'package:flutter_hulk/json/hulk_json_double.dart';
-import 'package:flutter_hulk/json/hulk_json_integer.dart';
-import 'package:flutter_hulk/json/hulk_json_list.dart';
-import 'package:flutter_hulk/json/hulk_json_number.dart';
-import 'package:flutter_hulk/json/hulk_json_object.dart';
-import 'package:flutter_hulk/json/hulk_json_string.dart';
-import 'package:flutter_hulk/json/hulk_property_descriptor.dart';
+import 'package:flutter_hulk/model_field.dart';
+import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/json/json_boolean.dart';
+import 'package:flutter_hulk/json/json_date.dart';
+import 'package:flutter_hulk/json/json_double.dart';
+import 'package:flutter_hulk/json/json_integer.dart';
+import 'package:flutter_hulk/json/json_list.dart';
+import 'package:flutter_hulk/json/json_number.dart';
+import 'package:flutter_hulk/json/json_object.dart';
+import 'package:flutter_hulk/json/json_string.dart';
+import 'package:flutter_hulk/json/property_descriptor.dart';
 import 'package:reflectable/mirrors.dart';
 
 abstract class Model {
