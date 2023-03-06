@@ -1,11 +1,14 @@
-import 'package:flutter_hulk/model.dart';
 import 'package:flutter_hulk/json/json_type.dart';
 import 'package:flutter_hulk/json/property_descriptor.dart';
+import 'package:flutter_hulk/model.dart';
+import 'package:flutter_hulk/model_reflector.dart';
 
+@reflector
 class JsonList<T extends Model> extends PropertyDescriptor<List<T>> {
-  dynamic classType;
+  Type classType = T;
 
-  JsonList({bool isRequired = false}) : super(fieldType: JsonType.list, isRequired: isRequired);
+  JsonList({bool isRequired = false})
+      : super(fieldType: JsonType.list, isRequired: isRequired);
 
   JsonList.fromJSON({
     required List<Map<String, dynamic>> json,
@@ -20,5 +23,10 @@ class JsonList<T extends Model> extends PropertyDescriptor<List<T>> {
   @override
   List<dynamic>? toJSON() {
     return value?.map((e) => e.toJSON()).toList();
+  }
+
+  void add(dynamic element) {
+    value ??= <T>[];
+    value!.add(element as T);
   }
 }

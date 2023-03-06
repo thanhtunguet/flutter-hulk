@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_hulk/model_field.dart';
-import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/exceptions/circular_exception.dart';
 import 'package:flutter_hulk/json/json_boolean.dart';
 import 'package:flutter_hulk/json/json_date.dart';
 import 'package:flutter_hulk/json/json_double.dart';
@@ -11,14 +10,16 @@ import 'package:flutter_hulk/json/json_number.dart';
 import 'package:flutter_hulk/json/json_object.dart';
 import 'package:flutter_hulk/json/json_string.dart';
 import 'package:flutter_hulk/json/property_descriptor.dart';
+import 'package:flutter_hulk/model_field.dart';
+import 'package:flutter_hulk/model_reflector.dart';
 import 'package:reflectable/mirrors.dart';
 
-abstract class Model {
+class Model {
   List<String> generalErrors = [];
 
   List<String> generalWarnings = [];
 
-  List<String> generalInformations = [];
+  List<String> generalInformation = [];
 
   void _loadFields() {
     InstanceMirror mirror = reflector.reflect(this);
@@ -39,12 +40,10 @@ abstract class Model {
           }
           if (fieldDescriptor is JsonObject) {
             fieldDescriptor.fieldName = field.fieldName;
-            fieldDescriptor.classType = field.classType;
             fieldDescriptor.isRequired = field.isRequired;
           }
           if (fieldDescriptor is JsonList) {
             fieldDescriptor.fieldName = field.fieldName;
-            fieldDescriptor.classType = field.classType;
             fieldDescriptor.isRequired = field.isRequired;
           }
         }
@@ -89,10 +88,10 @@ abstract class Model {
 
     generalErrors = _mapGeneralInfo(json["generalErrors"] ?? []);
     generalWarnings = _mapGeneralInfo(json["generalWarnings"] ?? []);
-    generalInformations = _mapGeneralInfo(json["generalInformations"] ?? []);
+    generalInformation = _mapGeneralInfo(json["generalInformation"] ?? []);
 
     Map<String, dynamic> errors = {},
-        informations = {},
+        information = {},
         disabledFields = {},
         warnings = {};
 
@@ -102,8 +101,8 @@ abstract class Model {
     if (json["warnings"] != null) {
       Map<String, dynamic> warnings = json["warnings"];
     }
-    if (json["informations"] != null) {
-      Map<String, dynamic> informations = json["informations"];
+    if (json["information"] != null) {
+      Map<String, dynamic> information = json["information"];
     }
     if (json["disabled"] != null) {
       Map<String, dynamic> disabledFields = json["disabled"];
@@ -122,8 +121,8 @@ abstract class Model {
       if (warnings.containsKey(key)) {
         field.warning = warnings[key];
       }
-      if (informations.containsKey(key)) {
-        field.information = informations[key];
+      if (information.containsKey(key)) {
+        field.information = information[key];
       }
 
       if (json.containsKey(key)) {
@@ -141,30 +140,42 @@ abstract class Model {
             field.value = null;
           }
         }
-        if (field is JsonObject<Model>) {
-          Model model = field.classType();
-          model.fromJSON(json[key]);
+        if (field is JsonObject) {
+          Model model = invokeClass(field.classType);
+          model.fromJSON(json[field.fieldName]);
           field.value = model;
         }
         if (field is JsonList) {
-          field.value = (json[key] as List<Map<String, dynamic>>).map((value) {
-            Model model = field.classType();
-            model.fromJSON(value);
-            return model;
-          }).toList();
+          Type classType = field.classType;
+          dynamic list = json[field.fieldName];
+          if (list != null) {
+            for (var value in list) {
+              dynamic model = invokeClass(field.classType);
+              model.fromJSON(value);
+              field.add(model);
+            }
+          }
         }
       }
     }
   }
 
-  Map<String, dynamic> convertToJSON({required List<Model> serialized}) {
+  dynamic invokeClass(Type classType) {
+    ClassMirror mirror = reflector.reflectType(classType) as ClassMirror;
+    return mirror.newInstance("", []) as Model;
+  }
+
+  Map<String, dynamic> toJSON({List<Model>? serialized}) {
+    if (hasCircularDependency(serialized: [])) {
+      throw CircularException();
+    }
+    serialized ??= [];
     Map<String, dynamic> result = {};
     var fields = _getFields();
     for (var field in fields) {
       if (field.isRequired) {
         if (field.value == null) {
           throw Exception("Field ${field.fieldName} is missing in this model.");
-          print(result);
         }
       }
       if (field.value is DateTime) {
@@ -172,9 +183,20 @@ abstract class Model {
         continue;
       }
       if (field.value is List) {
-        result[field.fieldName] = field.value.map((value) {
-          return value.toJSON();
-        }).toList();
+        if (field.value == null) {
+          result[field.fieldName] = null;
+          continue;
+        }
+        result[field.fieldName] = [];
+        field.value.forEach((value) {
+          bool isContained = serialized!.contains(value);
+          if (isContained) {
+            return;
+          }
+          dynamic v = value.toJSON(serialized: serialized);
+          result[field.fieldName].add(v);
+          serialized.add(value);
+        });
         continue;
       }
       if (field.value is Model) {
@@ -183,8 +205,7 @@ abstract class Model {
         } else {
           serialized.add(field.value);
         }
-        result[field.fieldName] =
-            field.value.convertToJSON(serialized: serialized);
+        result[field.fieldName] = field.value.toJSON(serialized: serialized);
         continue;
       }
       if (field.value is String ||
@@ -198,8 +219,35 @@ abstract class Model {
     return result;
   }
 
-  Map<String, dynamic> toJSON() {
-    return convertToJSON(serialized: []);
+  bool hasCircularDependency({List<Model>? serialized}) {
+    serialized ??= [];
+    List<PropertyDescriptor> fields = _getFields();
+    for (var field in fields) {
+      if (field is JsonObject) {
+        if (field.value != null) {
+          if (serialized.contains(field.value)) {
+            return true;
+          }
+          serialized.add(field.value!);
+        }
+        continue;
+      }
+      if (field is JsonList) {
+        if (field.value != null) {
+          for (var child in field.value!) {
+            if (serialized.contains(child)) {
+              return true;
+            }
+            if (child.hasCircularDependency(serialized: serialized)) {
+              return true;
+            }
+            serialized.add(child);
+          }
+        }
+      }
+      continue;
+    }
+    return false;
   }
 
   @override
@@ -216,6 +264,10 @@ abstract class Model {
   }
 
   bool get hasInformation {
-    return generalInformations.isNotEmpty;
+    return generalInformation.isNotEmpty;
+  }
+
+  factory Model.create() {
+    return Model();
   }
 }

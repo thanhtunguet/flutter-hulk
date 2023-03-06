@@ -1,48 +1,57 @@
-import 'package:flutter_hulk/model.dart';
-import 'package:flutter_hulk/model_field.dart';
-import 'package:flutter_hulk/model_reflector.dart';
-import 'package:flutter_hulk/json/json_date.dart';
-import 'package:flutter_hulk/json/json_integer.dart';
-import 'package:flutter_hulk/json/json_object.dart';
-import 'package:flutter_hulk/json/json_string.dart';
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 
+import 'entities/user.dart';
 import 'flutter_hulk_test.reflectable.dart';
-
-@reflector
-class User extends Model {
-  @ModelField("name")
-  JsonString name = JsonString();
-
-  @ModelField("age")
-  JsonInteger age = JsonInteger();
-
-  @ModelField("birthday")
-  JsonDate birthday = JsonDate();
-
-  @ModelField("manager")
-  JsonObject<User> manager = JsonObject<User>();
-}
 
 void main() {
   initializeReflectable();
 
-  Map<String, dynamic> json = {
+  Map<String, dynamic> jsonValue = {
     "name": "Test",
     "age": 25,
     "birthday": "1997-11-01T01:59:00+0700",
     "manager": {
       "name": "Test",
       "age": 25,
-      "birthday": "1997-11-01T01:59:00+0700"
+      "birthday": "1997-11-01T01:59:00+0700",
+      "members": []
     }
   };
 
-  User user = User();
-  user.fromJSON(json);
+  test('user deserialization', () {
+    User user = User();
+    user.fromJSON(jsonValue);
+    user.manager.value?.members.add(user);
+    expect(
+      user.manager.value.runtimeType,
+      User,
+    );
+    expect(
+      user.manager.value?.members.value![0],
+      user,
+    );
+  });
 
-  test('adds one to input values', () {
-    print(user.manager.value?.toJSON());
-    expect(user, user.manager.value);
+  test('user serialization', () {
+    User tungpt = User();
+    tungpt.name.value = "TungPT";
+    tungpt.age.value = 25;
+    tungpt.birthday.value = DateTime(1997, 11, 01);
+
+    User thangld = User();
+    thangld.name.value = "ThangLD";
+    thangld.age.value = 30;
+    thangld.birthday.value = DateTime(1991, 05, 10);
+
+    tungpt.manager.value = thangld;
+    thangld.members.add(tungpt);
+
+    expect(thangld.members.value![0], tungpt);
+    String jsonString = json.encode(thangld.toJSON());
+    print(jsonString);
+    expect(jsonString,
+        '{"name":"ThangLD","age":30,"birthday":"1991-05-10T00:00:00.000","manager":null,"members":[{"name":"TungPT","age":25,"birthday":"1997-11-01T00:00:00.000","manager":{"name":"ThangLD","age":30,"birthday":"1991-05-10T00:00:00.000","manager":null,"members":[{"name":"TungPT","age":25,"birthday":"1997-11-01T00:00:00.000","members":null}]},"members":null}]}');
   });
 }
