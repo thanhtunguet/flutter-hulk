@@ -96,16 +96,16 @@ class Model {
         warnings = {};
 
     if (json["errors"] != null) {
-      Map<String, dynamic> errors = json["errors"];
+      errors = json["errors"];
     }
     if (json["warnings"] != null) {
-      Map<String, dynamic> warnings = json["warnings"];
+      warnings = json["warnings"];
     }
     if (json["information"] != null) {
-      Map<String, dynamic> information = json["information"];
+      information = json["information"];
     }
     if (json["disabled"] != null) {
-      Map<String, dynamic> disabledFields = json["disabled"];
+      disabledFields = json["disabled"];
     }
 
     for (var field in fields) {
@@ -166,7 +166,7 @@ class Model {
   }
 
   Map<String, dynamic> toJSON({List<Model>? serialized}) {
-    if (hasCircularDependency(serialized: [])) {
+    if (_hasCircularDependency(serialized: [])) {
       throw CircularException();
     }
     serialized ??= [];
@@ -219,7 +219,7 @@ class Model {
     return result;
   }
 
-  bool hasCircularDependency({List<Model>? serialized}) {
+  bool _hasCircularDependency({List<Model>? serialized}) {
     serialized ??= [];
     List<PropertyDescriptor> fields = _getFields();
     for (var field in fields) {
@@ -238,7 +238,7 @@ class Model {
             if (serialized.contains(child)) {
               return true;
             }
-            if (child.hasCircularDependency(serialized: serialized)) {
+            if (child._hasCircularDependency(serialized: serialized)) {
               return true;
             }
             serialized.add(child);
@@ -265,9 +265,5 @@ class Model {
 
   bool get hasInformation {
     return generalInformation.isNotEmpty;
-  }
-
-  factory Model.create() {
-    return Model();
   }
 }

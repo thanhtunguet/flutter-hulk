@@ -1,3 +1,4 @@
+import 'package:flutter_hulk/entity.dart';
 import 'package:flutter_hulk/json/json_date.dart';
 import 'package:flutter_hulk/json/json_integer.dart';
 import 'package:flutter_hulk/json/json_list.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_hulk/model_field.dart';
 import 'package:flutter_hulk/model_reflector.dart';
 
 @reflector
+@Entity()
 class User extends Model {
   @ModelField("name")
   JsonString name = JsonString();
