@@ -1,10 +1,10 @@
 import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/property_descriptor.dart';
+import 'package:flutter_hulk/json/json_property_descriptor.dart';
 import 'package:flutter_hulk/model.dart';
-import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/annotations/model_reflector.dart';
 
 @reflector
-class JsonList<T extends Model> extends PropertyDescriptor<List<T>> {
+class JsonList<T extends Model> extends JsonPropertyDescriptor<List<T>> {
   Type classType = T;
 
   JsonList({bool isRequired = false})

@@ -9,9 +9,9 @@ import 'package:flutter_hulk/json/json_list.dart';
 import 'package:flutter_hulk/json/json_number.dart';
 import 'package:flutter_hulk/json/json_object.dart';
 import 'package:flutter_hulk/json/json_string.dart';
-import 'package:flutter_hulk/json/property_descriptor.dart';
-import 'package:flutter_hulk/model_field.dart';
-import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/json/json_property_descriptor.dart';
+import 'package:flutter_hulk/annotations/model_field.dart';
+import 'package:flutter_hulk/annotations/model_reflector.dart';
 import 'package:reflectable/mirrors.dart';
 
 class Model {
@@ -27,8 +27,8 @@ class Model {
       if (value.metadata.isNotEmpty) {
         var field = value.metadata[0];
         if (field is ModelField) {
-          PropertyDescriptor fieldDescriptor =
-              mirror.invokeGetter(field.fieldName) as PropertyDescriptor;
+          JsonPropertyDescriptor fieldDescriptor =
+              mirror.invokeGetter(field.fieldName) as JsonPropertyDescriptor;
           if (fieldDescriptor is JsonString ||
               fieldDescriptor is JsonDate ||
               fieldDescriptor is JsonInteger ||
@@ -60,16 +60,16 @@ class Model {
     fromJSON(json);
   }
 
-  List<PropertyDescriptor> _getFields() {
-    List<PropertyDescriptor> fields = [];
+  List<JsonPropertyDescriptor> _getFields() {
+    List<JsonPropertyDescriptor> fields = [];
     InstanceMirror mirror = reflector.reflect(this);
     mirror.type.declarations.forEach((key, value) {
       if (value.metadata.isNotEmpty) {
         var field = value.metadata[0];
         if (field is ModelField) {
           DeclarationMirror declarationMirror = value;
-          PropertyDescriptor field = mirror
-              .invokeGetter(declarationMirror.simpleName) as PropertyDescriptor;
+          JsonPropertyDescriptor field = mirror
+              .invokeGetter(declarationMirror.simpleName) as JsonPropertyDescriptor;
           fields.add(field);
         }
       }
@@ -221,7 +221,7 @@ class Model {
 
   bool _hasCircularDependency({List<Model>? serialized}) {
     serialized ??= [];
-    List<PropertyDescriptor> fields = _getFields();
+    List<JsonPropertyDescriptor> fields = _getFields();
     for (var field in fields) {
       if (field is JsonObject) {
         if (field.value != null) {

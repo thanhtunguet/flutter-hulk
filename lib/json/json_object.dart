@@ -1,10 +1,10 @@
 import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/property_descriptor.dart';
+import 'package:flutter_hulk/json/json_property_descriptor.dart';
 import 'package:flutter_hulk/model.dart';
-import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/annotations/model_reflector.dart';
 
 @reflector
-class JsonObject<T extends Model> extends PropertyDescriptor<T> {
+class JsonObject<T extends Model> extends JsonPropertyDescriptor<T> {
   Type classType = T;
 
   JsonObject({

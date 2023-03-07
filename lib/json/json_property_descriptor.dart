@@ -1,6 +1,6 @@
 import 'package:flutter_hulk/json/json_type.dart';
 
-class PropertyDescriptor<T extends dynamic> {
+class JsonPropertyDescriptor<T extends dynamic> {
   String fieldName = "";
 
   JsonType fieldType;
@@ -9,7 +9,7 @@ class PropertyDescriptor<T extends dynamic> {
 
   bool isDisabled = false;
 
-  PropertyDescriptor({
+  JsonPropertyDescriptor({
     String? fieldName,
     required this.fieldType,
     this.isRequired = false,
@@ -19,7 +19,7 @@ class PropertyDescriptor<T extends dynamic> {
     }
   }
 
-  PropertyDescriptor.fromJSON({
+  JsonPropertyDescriptor.fromJSON({
     required dynamic json,
     required this.fieldName,
     required this.fieldType,

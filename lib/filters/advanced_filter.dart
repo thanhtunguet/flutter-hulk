@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_hulk/filters/filter.dart';
-import 'package:flutter_hulk/filter_field.dart';
-import 'package:flutter_hulk/model_reflector.dart';
-import 'package:flutter_hulk/pagination.dart';
+import 'package:flutter_hulk/annotations/filter_field.dart';
+import 'package:flutter_hulk/annotations/model_reflector.dart';
+import 'package:flutter_hulk/utils/pagination.dart';
 import 'package:reflectable/mirrors.dart';
 
 abstract class AdvancedFilter with Pagination {
