@@ -1,12 +1,9 @@
-import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/json_property_descriptor.dart';
+import '../json_property_descriptor.dart';
 
 class JsonString extends JsonPropertyDescriptor<String> {
-  JsonString({bool isRequired = false})
-      : super(fieldType: JsonType.string, isRequired: isRequired);
+  JsonString() : super();
 
-  @override
-  String? toJSON() {
-    return value;
+  JsonString.fromJSON(String json) : super.fromJSON(json) {
+    value = json;
   }
 }

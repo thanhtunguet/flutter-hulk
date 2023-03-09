@@ -1,12 +1,9 @@
-import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/json_property_descriptor.dart';
+import '../json_property_descriptor.dart';
 
 class JsonDouble extends JsonPropertyDescriptor<double> {
-  JsonDouble({bool isRequired = false})
-      : super(fieldType: JsonType.double, isRequired: isRequired);
+  JsonDouble() : super();
 
-  @override
-  double? toJSON() {
-    return value;
+  JsonDouble.fromJSON(num json) : super.fromJSON(json) {
+    value = json.toDouble();
   }
 }

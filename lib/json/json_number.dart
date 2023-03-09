@@ -1,12 +1,9 @@
-import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/json_property_descriptor.dart';
+import '../json_property_descriptor.dart';
 
 class JsonNumber extends JsonPropertyDescriptor<num> {
-  JsonNumber({bool isRequired = false})
-      : super(fieldType: JsonType.number, isRequired: isRequired);
+  JsonNumber() : super();
 
-  @override
-  num? toJSON() {
-    return value;
+  JsonNumber.fromJSON(num json) : super.fromJSON(json) {
+    value = json;
   }
 }

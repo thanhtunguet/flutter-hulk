@@ -1,10 +1,5 @@
-class ModelField {
-  final String fieldName;
+import '../annotations/field_decorator.dart';
 
-  final bool isRequired;
-
-  const ModelField(
-    this.fieldName, {
-    this.isRequired = false,
-  });
+class ModelField extends FieldDecorator {
+  const ModelField() : super();
 }

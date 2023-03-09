@@ -1,4 +1,4 @@
-import 'package:flutter_hulk/filters/filter.dart';
+import '../filter.dart';
 
 class GuidFilter extends Filter {
   List<String>? _inList;
@@ -9,10 +9,9 @@ class GuidFilter extends Filter {
 
   String? notEqual;
 
-  GuidFilter({bool isRequired = false}) : super(isRequired: isRequired);
+  GuidFilter() : super();
 
-  GuidFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
-      : super.fromJSON(json, isRequired: isRequired) {
+  GuidFilter.fromJSON(Map<String, dynamic> json) : super.fromJSON(json) {
     if (json.containsKey("in")) {
       _inList = json["in"];
     }

@@ -1,13 +1,5 @@
-class FilterField {
-  final String fieldName;
+import '../annotations/field_decorator.dart';
 
-  final dynamic classType;
-
-  final bool isRequired;
-
-  const FilterField(
-    this.fieldName, {
-    this.classType,
-    this.isRequired = false,
-  });
+class FilterField extends FieldDecorator {
+  const FilterField() : super();
 }

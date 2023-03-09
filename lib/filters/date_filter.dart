@@ -1,10 +1,9 @@
-import 'package:flutter_hulk/filters/number_filter.dart';
+import '../filters/number_filter.dart';
 
 class DateFilter extends NumberFilter<DateTime> {
-  DateFilter({bool isRequired = false}) : super(isRequired: isRequired);
+  DateFilter() : super();
 
-  DateFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
-      : super.fromJSON(json, isRequired: isRequired) {
+  DateFilter.fromJSON(Map<String, dynamic> json) : super.fromJSON(json) {
     if (json.containsKey("greaterEqual")) {
       greaterEqual = DateTime.parse(json["greaterEqual"]);
     }

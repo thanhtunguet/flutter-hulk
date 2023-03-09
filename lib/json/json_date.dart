@@ -1,8 +1,11 @@
-import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/json_property_descriptor.dart';
+import '../json_property_descriptor.dart';
 
 class JsonDate extends JsonPropertyDescriptor<DateTime> {
-  JsonDate({bool isRequired = false}) : super(fieldType: JsonType.datetime, isRequired: isRequired);
+  JsonDate() : super();
+
+  JsonDate.fromJSON(String json) : super.fromJSON(json) {
+    value = DateTime.parse(json);
+  }
 
   @override
   String? toJSON() {

@@ -39,7 +39,7 @@ Ví dụ: Product, Customer, Order, ...
 ```dart
 import 'package:flutter_hulk/model.dart';
 import 'package:flutter_hulk/model_field.dart';
-import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/reflector.dart';
 import 'package:flutter_hulk/json/json_date.dart';
 import 'package:flutter_hulk/json/json_list.dart';
 import 'package:flutter_hulk/json/json_object.dart';
@@ -150,9 +150,9 @@ Ví dụ: định nghĩa class `UserFilter` dùng để filter cho các API lấ
 ```dart
 import 'package:flutter_hulk/filters/date_filter.dart';
 import 'package:flutter_hulk/filters/string_filter.dart';
-import 'package:flutter_hulk/advanced_filter.dart';
+import 'package:flutter_hulk/model_filter.dart';
 import 'package:flutter_hulk/filter_field.dart';
-import 'package:flutter_hulk/model_reflector.dart';
+import 'package:flutter_hulk/reflector.dart';
 
 @reflector
 class UserFilter extends AdvancedFilter {

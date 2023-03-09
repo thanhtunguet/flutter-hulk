@@ -1,6 +1,4 @@
-import 'dart:core';
-
-import 'package:flutter_hulk/filters/filter.dart';
+import '../filter.dart';
 
 class StringFilter extends Filter {
   String? equal;
@@ -19,10 +17,9 @@ class StringFilter extends Filter {
 
   String? notContain;
 
-  StringFilter({bool isRequired = false}) : super(isRequired: isRequired);
+  StringFilter() : super();
 
-  StringFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
-      : super.fromJSON(json, isRequired: isRequired) {
+  StringFilter.fromJSON(Map<String, dynamic> json) : super.fromJSON(json) {
     if (json.containsKey("equal")) {
       equal = json["equal"];
     }

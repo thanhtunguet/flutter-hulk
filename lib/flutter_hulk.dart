@@ -1,1 +1,20 @@
 library flutter_hulk;
+
+export 'data_class.dart';
+export 'filters/date_filter.dart';
+export 'filter.dart';
+export 'filters/guid_filter.dart';
+export 'filters/id_filter.dart';
+export 'filters/number_filter.dart';
+export 'filters/string_filter.dart';
+export 'json/json_boolean.dart';
+export 'json/json_date.dart';
+export 'json/json_double.dart';
+export 'json/json_integer.dart';
+export 'json/json_list.dart';
+export 'json/json_number.dart';
+export 'json/json_object.dart';
+export 'json_property_descriptor.dart';
+export 'json/json_string.dart';
+export 'model.dart';
+export 'model_filter.dart';

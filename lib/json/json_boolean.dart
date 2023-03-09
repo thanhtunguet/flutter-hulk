@@ -1,12 +1,9 @@
-import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/json_property_descriptor.dart';
+import '../json_property_descriptor.dart';
 
 class JsonBoolean extends JsonPropertyDescriptor<bool> {
-  JsonBoolean({bool isRequired = false})
-      : super(fieldType: JsonType.boolean, isRequired: isRequired);
+  JsonBoolean() : super();
 
-  @override
-  bool? toJSON() {
-    return value;
+  JsonBoolean.fromJSON(bool json) : super.fromJSON(json) {
+    value = json;
   }
 }

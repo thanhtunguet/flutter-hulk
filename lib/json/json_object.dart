@@ -1,30 +1,21 @@
-import 'package:flutter_hulk/json/json_type.dart';
-import 'package:flutter_hulk/json/json_property_descriptor.dart';
-import 'package:flutter_hulk/model.dart';
-import 'package:flutter_hulk/annotations/model_reflector.dart';
+import '../reflection/reflector.dart';
 
-@reflector
+import '../json_property_descriptor.dart';
+import '../model.dart';
+
 class JsonObject<T extends Model> extends JsonPropertyDescriptor<T> {
   Type classType = T;
 
-  JsonObject({
-    bool isRequired = false,
-  }) : super(
-          fieldType: JsonType.object,
-          isRequired: isRequired,
-        );
+  JsonObject() : super();
 
-  JsonObject.fromJSON(
-    Map<String, dynamic> json, {
-    dynamic classType,
-    required String fieldName,
-  }) : super(
-          fieldName: fieldName,
-          fieldType: JsonType.object,
-        );
+  JsonObject.fromJSON(Map<String, dynamic> json) : super.fromJSON(json) {
+    T model = ReflectionHelper.newInstance(T);
+    model.fromJSON(json);
+    value = model;
+  }
 
-  @override
-  T? toJSON() {
-    return value;
+  void fromJSON(Map<String, dynamic> json) {
+    value = ReflectionHelper.newInstance(T);
+    value!.fromJSON(json);
   }
 }

@@ -1,6 +1,4 @@
-import "dart:core";
-
-import 'package:flutter_hulk/filters/filter.dart';
+import '../filter.dart';
 
 class NumberFilter<T> extends Filter {
   T? greaterEqual;
@@ -15,10 +13,9 @@ class NumberFilter<T> extends Filter {
 
   T? notEqual;
 
-  NumberFilter({bool isRequired = false}) : super(isRequired: isRequired);
+  NumberFilter() : super();
 
-  NumberFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
-      : super.fromJSON(json, isRequired: isRequired) {
+  NumberFilter.fromJSON(Map<String, dynamic> json) : super.fromJSON(json) {
     if (json.containsKey("greaterEqual")) {
       greaterEqual = json["greaterEqual"];
     }

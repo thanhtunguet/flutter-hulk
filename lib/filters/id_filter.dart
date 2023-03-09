@@ -1,4 +1,4 @@
-import 'package:flutter_hulk/filters/filter.dart';
+import '../filter.dart';
 
 class IdFilter extends Filter {
   List<int>? _inList;
@@ -9,10 +9,9 @@ class IdFilter extends Filter {
 
   int? notEqual;
 
-  IdFilter({bool isRequired = false}) : super(isRequired: isRequired);
+  IdFilter() : super();
 
-  IdFilter.fromJSON(Map<String, dynamic> json, {bool isRequired = false})
-      : super.fromJSON(json, isRequired: isRequired) {
+  IdFilter.fromJSON(Map<String, dynamic> json) : super.fromJSON(json) {
     if (json.containsKey("in")) {
       _inList = json["in"];
     }
