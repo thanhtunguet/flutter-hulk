@@ -1,7 +1,6 @@
-import '../reflection/reflector.dart';
-
 import '../json_property_descriptor.dart';
 import '../model.dart';
+import '../reflection/reflector.dart';
 
 class JsonObject<T extends Model> extends JsonPropertyDescriptor<T> {
   Type classType = T;
@@ -14,8 +13,14 @@ class JsonObject<T extends Model> extends JsonPropertyDescriptor<T> {
     value = model;
   }
 
-  void fromJSON(Map<String, dynamic> json) {
-    value = ReflectionHelper.newInstance(T);
-    value!.fromJSON(json);
+  @override
+  void fromJSON(dynamic json) {
+    if (json is Map) {
+      value = ReflectionHelper.newInstance(T);
+      value!.fromJSON(json);
+      return;
+    }
+    throw const FormatException(
+        "JSON passed to JsonObject.fromJSON should be a Map");
   }
 }

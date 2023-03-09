@@ -1,5 +1,4 @@
-import 'package:flutter_hulk/json_serializable.dart';
-
+import './json_serializable.dart';
 import 'data_class.dart';
 
 enum ModelFilterOrder {

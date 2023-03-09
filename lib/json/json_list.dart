@@ -1,7 +1,6 @@
-import '../reflection/reflector.dart';
-
 import '../json_property_descriptor.dart';
 import '../model.dart';
+import '../reflection/reflector.dart';
 
 class JsonList<T extends Model> extends JsonPropertyDescriptor<List<T>> {
   Type classType = T;
@@ -30,5 +29,16 @@ class JsonList<T extends Model> extends JsonPropertyDescriptor<List<T>> {
       return false;
     }
     return value!.contains(element);
+  }
+
+  @override
+  void fromJSON(json) {
+    if (json is List) {
+      value = json.map((element) {
+        T model = ReflectionHelper.newInstance(T);
+        model.fromJSON(element);
+        return model;
+      }).toList();
+    }
   }
 }

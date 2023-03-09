@@ -1,12 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter_hulk/json_serializable.dart';
 import 'package:reflectable/mirrors.dart';
 
 import './annotations/field_decorator.dart';
 import './data_field.dart';
 import './exceptions/property_required_exception.dart';
-import './flutter_hulk.dart';
+import './json/json_date.dart';
+import './json/json_list.dart';
+import './json/json_object.dart';
+import './json_property_descriptor.dart';
+import './json_serializable.dart';
+import './model.dart';
 import './reflection/reflector.dart';
 
 class DataClass with JsonSerializable {
@@ -69,7 +73,7 @@ class DataClass with JsonSerializable {
           if (field is JsonObject) {
             field.value =
                 _newInstanceFromJSON(field.classType, json[field.fieldName])
-                    as Model;
+                    as Model?;
             continue;
           }
           if (field is JsonList) {

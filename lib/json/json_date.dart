@@ -1,4 +1,5 @@
 import '../json_property_descriptor.dart';
+import '../json_serializable.dart';
 
 class JsonDate extends JsonPropertyDescriptor<DateTime> {
   JsonDate() : super();
@@ -8,7 +9,7 @@ class JsonDate extends JsonPropertyDescriptor<DateTime> {
   }
 
   @override
-  String? toJSON() {
+  String? toJSON({List<JsonSerializable>? serialized}) {
     return value?.toIso8601String();
   }
 }

@@ -1,7 +1,8 @@
 import './data_field.dart';
-import './flutter_hulk.dart';
+import './json_serializable.dart';
 
-class JsonPropertyDescriptor<T extends dynamic> extends DataField {
+class JsonPropertyDescriptor<T extends dynamic> extends DataField
+    with JsonSerializable {
   bool isDisabled = false;
 
   T? value;
@@ -13,7 +14,7 @@ class JsonPropertyDescriptor<T extends dynamic> extends DataField {
   String? information;
 
   @override
-  dynamic toJSON() {
+  dynamic toJSON({List<JsonSerializable>? serialized}) {
     return value;
   }
 
@@ -31,6 +32,7 @@ class JsonPropertyDescriptor<T extends dynamic> extends DataField {
 
   JsonPropertyDescriptor() : super();
 
+  @override
   JsonPropertyDescriptor.fromJSON(dynamic json) : super.fromJSON(json) {
     value = json;
   }
@@ -38,5 +40,10 @@ class JsonPropertyDescriptor<T extends dynamic> extends DataField {
   @override
   bool isEmpty() {
     return value == null;
+  }
+
+  @override
+  void fromJSON(json) {
+    value = json;
   }
 }
