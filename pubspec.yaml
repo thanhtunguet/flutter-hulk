@@ -8,6 +8,8 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  dio: ^5.0.1
+  dio_cookie_manager: ^2.1.1
   flutter:
     sdk: flutter
   path: ^1.8.2

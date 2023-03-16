@@ -1,7 +1,7 @@
 import './json_serializable.dart';
 import 'data_class.dart';
 
-enum ModelFilterOrder {
+enum FilterOrderType {
   asc,
   desc,
 }
@@ -13,7 +13,7 @@ abstract class ModelFilter extends DataClass {
 
   String? orderBy;
 
-  ModelFilterOrder? orderType;
+  FilterOrderType? orderType;
 
   @override
   Map<String, dynamic> toJSON({List<JsonSerializable>? serialized}) {
@@ -23,9 +23,9 @@ abstract class ModelFilter extends DataClass {
     if (orderBy != null) {
       result["orderBy"] = orderBy;
     }
-    if (orderType == ModelFilterOrder.asc) {
+    if (orderType == FilterOrderType.asc) {
       result["orderType"] = "ASC";
-    } else if (orderType == ModelFilterOrder.desc) {
+    } else if (orderType == FilterOrderType.desc) {
       result["orderType"] = "DESC";
     }
     return result;

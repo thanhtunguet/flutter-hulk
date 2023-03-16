@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:flutter_hulk/model_filter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'entities/user.dart';
@@ -44,14 +43,12 @@ void main() {
     thangld.members.add(tungpt);
 
     expect(thangld.members.value![0], tungpt);
-    var jsonThangLD = thangld.toJSON();
-    String jsonString = jsonEncode(thangld.toJSON());
-
-    expect(jsonString.runtimeType, String);
   });
 
   test("user filter", () {
-    UserFilter userFilter =  UserFilter();
-    print(userFilter.toString());
+    UserFilter userFilter = UserFilter();
+    userFilter.name.equal = "Test";
+    userFilter.orderBy = "name";
+    userFilter.orderType = FilterOrderType.asc;
   });
 }

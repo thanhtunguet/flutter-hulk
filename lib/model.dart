@@ -31,8 +31,5 @@ abstract class Model extends DataClass {
     errors = json["errors"];
     warnings = json["warnings"];
     information = json["informations"];
-    generalErrors = json["generalErrors"];
-    generalWarnings = json["generalWarnings"];
-    generalInformation = json["generalInformations"];
   }
 }
