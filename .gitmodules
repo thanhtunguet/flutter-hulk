@@ -1,0 +1,3 @@
+[submodule "truesight_flutter"]
+	path = truesight_flutter
+	url = https://github.com/thanhtunguet/truesight_flutter.git

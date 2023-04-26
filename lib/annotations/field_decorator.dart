@@ -1,3 +1,0 @@
-class FieldDecorator {
-  const FieldDecorator();
-}
